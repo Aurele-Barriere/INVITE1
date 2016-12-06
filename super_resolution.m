@@ -19,7 +19,7 @@ for n=1:s3 % reshape data
     
     for i=1:s1
          for j=1:s2
-             im_sortie = [im_sortie reshape(images_learning_haute_resolution(i*R_:i*R_ + R_ - 1, j*R_:j*R_ + R_ - 1, n), [R_^2, 1])];
+             im_sortie = [im_sortie reshape(images_learning_haute_resolution(((i-1)*R_)+1:(i*R_), ((j-1)*R_)+1:(j*R_), n), [R_^2, 1])];
          end
      end
     % im_entree_vect = reshape(im_basse, [(s2 - 2*R +1) * (s1 - 2*R + 1), 1]);
