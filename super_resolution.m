@@ -14,19 +14,19 @@ R_ = 2; % high res radius
 im_entree = [];
 im_sortie = [];
 for n=1:s3 % reshape data
-
-   for i=1+R:s1-R
-        for j=1+R:s2-R
-            im_entree = [im_entree reshape(images_learning_basse_resolution(i-R:i+R, j-R:j+R, n), [(2 * R + 1) ^ 2, 1])];
-            im_sortie = [im_sortie reshape(images_learning_haute_resolution(i*R_:i*R_ + R_ - 1, j*R_:j*R_ + R_ - 1, n), [R_^2, 1])];
-        end
-    end
+    im_entree = [im_entree im2patches(images_learning_basse_resolution(:,:,n),R,'replicate')];
+   % im_sortie = [im_sortie im2patches(images_learning_haute_resolution(:,:,n),R_,'replicate')
+    
+    for i=1:s1
+         for j=1:s2
+             im_sortie = [im_sortie reshape(images_learning_haute_resolution(i*R_:i*R_ + R_ - 1, j*R_:j*R_ + R_ - 1, n), [R_^2, 1])];
+         end
+     end
     % im_entree_vect = reshape(im_basse, [(s2 - 2*R +1) * (s1 - 2*R + 1), 1]);
     % im_sortie_vect = reshape(im_sortie, [sizex * sizey, 1]);
     
 end
 
-im_entree = transpose(im_entree);
 im_sortie = transpose(im_sortie);
 
 % SVR method

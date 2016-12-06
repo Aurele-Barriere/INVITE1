@@ -15,10 +15,10 @@ imp=padarray(im,[r r],border);
 k=1;
 taille=(2*r+1)*(2*r+1);
     for j=1:nc
-for i=1:nl
-        patch=imp(i:i+2*r,j:j+2*r);
-    imP(k,:)=reshape(patch,[1,taille]);
-    k=k+1;
+        for i=1:nl
+            patch=imp(i:i+2*r,j:j+2*r);
+            imP(k,:)=reshape(patch,[1,taille]);
+            k=k+1;
     end
 end
 
