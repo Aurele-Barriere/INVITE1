@@ -41,8 +41,8 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
         for i=1:nb_folds
             X = data_kv{i};
             X_ = svm_regression(label_kv{i},data_kt{i},label_kt{i});
-            
-            perf = sqrt ( (1 / size(X)) * norm (X - X_) * norm (X - X_));
+            [x1 x2] = size(X);
+            perf = sqrt ( (1 / (x1*x2)) * norm (X - X_) * norm (X - X_));
             perf_moy(g) = perf_moy(g) + perf;
         end
     end
