@@ -39,8 +39,8 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
     gamma=[0.1 0.5 1 2 5 10 15 20];
     for g = 1:8
         for i=1:nb_folds
-            X = data_kv{i};
-            X_ = svm_regression(label_kv{i},data_kt{i},label_kt{i});
+            X = label_kv{i};
+            X_ = svm_regression(data_kv{i},label_kt{i},data_kt{i});
             [x1 x2] = size(X);
             perf = sqrt ( (1 / (x1*x2)) * norm (X - X_) * norm (X - X_));
             perf_moy(g) = perf_moy(g) + perf;
@@ -60,8 +60,17 @@ end
 
 if (param.method == 0)
     options.kernel_d = param.gamma;
-
-    images_superresolues = svm_regression(images_test, images_learning_basse_resolution, images_learning_haute_resolution, options)
+    % im2patches
+    im_test = [];
+    [t1 t2 t3] = size(images_test);
+    for n = 1:t3
+        im_test = [im_test im2patches(images_test(:,:,n),R,'replicate');
+    end
+    images_superresolues = svm_regression(im_test, images_entree, images_sortie, options);
+    % reshape
+    
+    images_superresolues = reshape(images_superresolues, [s1 s2 t3])
+    
 end
 
 
