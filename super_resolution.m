@@ -8,8 +8,8 @@ function images_superresolues = super_resolution(images_learning_basse_resolutio
 [s1_, s2_, s3_] = size(images_learning_haute_resolution);
 assert (s3 == s3_);
 
-R = 1; % low res radius. to be fixed by parameter
-R_ = 2; % high res radius
+R = 2; % low res radius. to be fixed by parameter
+R_ = 3; % high res radius
 
 im_entree = [];
 im_sortie = [];
@@ -19,7 +19,7 @@ for n=1:s3 % reshape data
     
     for i=1:s1
          for j=1:s2
-             im_sortie = [im_sortie reshape(images_learning_haute_resolution(((i-1)*R_)+1:(i*R_), ((j-1)*R_)+1:(j*R_), n), [R_^2, 1])];
+             im_sortie = [im_sortie reshape(images_learning_haute_resolution(((i-1)*R_)+1:(i*R_), ((j-1)*R_)+1:(j*R_), n), [R_*R_, 1])];
          end
      end
     % im_entree_vect = reshape(im_basse, [(s2 - 2*R +1) * (s1 - 2*R + 1), 1]);
@@ -27,6 +27,7 @@ for n=1:s3 % reshape data
     
 end
 
+im_entree = transpose(im_entree);
 im_sortie = transpose(im_sortie);
 
 % SVR method
@@ -60,19 +61,25 @@ end
 
 if (nargin == 3 || param.method == 0)
     options.kernel_d = param.gamma;
+    options.kernel_type = 'gaussian';
     % im2patches
     im_test = [];
     [t1 t2 t3] = size(images_test);
-    for n = 1:t3
+    for n = 1:1
         im_test = [im_test im2patches(images_test(:,:,n),R,'replicate')];
     end
-    images_superresolues = svm_regression(im_test, im_entree, im_sortie, options);
+    size(im_test)
+    size(im_sortie)
+    size(im_entree)
+    images_superresolues = svm_regression(im_test, im_sortie, im_entree, options);
+
     % reshape
     
-    images_superresolues = reshape(images_superresolues, [s1 s2 t3]);
+    images_superresolues = reshape(images_superresolues, [s1_ s2_]);
     
 end
 
 
 % test with
 % super_resolution(images_apprentissage_lr(100:120, 100:120, 1:2), images_apprentissage_hr(100:120, 100:120, 1:2), images_test_lr)
+% compare with imresize(im, [taille * 2, taille * 2])
