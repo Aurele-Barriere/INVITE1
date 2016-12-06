@@ -1,8 +1,8 @@
 %function data_centre=centre_donnees(data);
-% centre et réduit des donnees multidimentionnelles
+% centre et rï¿½duit des donnees multidimentionnelles
 % data
 % chaque dimension sur une colonne
-function [data_centre,moyenne,variance]=centre_donnees(data);
+function [data_centre,moyenne,variance]=centre_donnees_(data);
 
 
 [nl,nc]=size(data);

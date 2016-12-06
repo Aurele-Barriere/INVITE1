@@ -58,18 +58,18 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
        
 end
 
-if (param.method == 0)
+if (nargin == 3 || param.method == 0)
     options.kernel_d = param.gamma;
     % im2patches
     im_test = [];
     [t1 t2 t3] = size(images_test);
     for n = 1:t3
-        im_test = [im_test im2patches(images_test(:,:,n),R,'replicate');
+        im_test = [im_test im2patches(images_test(:,:,n),R,'replicate')];
     end
-    images_superresolues = svm_regression(im_test, images_entree, images_sortie, options);
+    images_superresolues = svm_regression(im_test, im_entree, im_sortie, options);
     % reshape
     
-    images_superresolues = reshape(images_superresolues, [s1 s2 t3])
+    images_superresolues = reshape(images_superresolues, [s1 s2 t3]);
     
 end
 

@@ -2,7 +2,7 @@
 % Recentre des donnees multidimentionnelles
 % data
 % chaque dimension sur une colonne
-function [data_centre,m,v]=centre_donnees_(data,m,v);
+function [data_centre,m,v]=centre_donnees(data,m,v);
 
 
 [nl,nc]=size(data);
