@@ -8,8 +8,8 @@ function images_superresolues = super_resolution(images_learning_basse_resolutio
 [s1_, s2_, s3_] = size(images_learning_haute_resolution);
 assert (s3 == s3_);
 
-R = 2; % low res radius. to be fixed by parameter
-R_ = 3; % high res radius
+R = 1; % low res radius. to be fixed by parameter
+R_ = 2; % high res radius
 
 im_entree = [];
 im_sortie = [];
@@ -27,7 +27,7 @@ for n=1:s3 % reshape data
     
 end
 
-im_entree = transpose(im_entree);
+%im_entree = transpose(im_entree);
 im_sortie = transpose(im_sortie);
 
 % SVR method
@@ -59,19 +59,25 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
        
 end
 
+
 if (nargin == 3 || param.method == 0)
     options.kernel_d = param.gamma;
     options.kernel_type = 'gaussian';
     % im2patches
     im_test = [];
     [t1 t2 t3] = size(images_test);
-    for n = 1:1
+    for n = 1:1 % 1:t3 for all images
         im_test = [im_test im2patches(images_test(:,:,n),R,'replicate')];
     end
-    size(im_test)
-    size(im_sortie)
-    size(im_entree)
-    images_superresolues = svm_regression(im_test, im_sortie, im_entree, options);
+    disp(t1)
+    disp(t2)
+    disp(t3)
+    disp("lol")
+    disp("xd")
+    disp(size(im_test))
+    disp(size(im_sortie))
+    disp(size(im_entree))
+    images_superresolues = svm_regression(transpose(im_test), im_sortie, im_entree, options);
 
     % reshape
     
