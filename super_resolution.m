@@ -21,23 +21,16 @@ im_entree = [];
 im_sortie = [];
 for n=1:s3 % reshape data
     im_entree = [im_entree;im2patches(images_learning_basse_resolution(:,:,n),R,'replicate')];
-   % im_sortie = [im_sortie im2patches(images_learning_haute_resolution(:,:,n),R_,'replicate')
     
     for i=1:s1
          for j=1:s2
              im_sortie = [im_sortie reshape(images_learning_haute_resolution(((i-1)*R_)+1:(i*R_), ((j-1)*R_)+1:(j*R_), n), [R_*R_, 1])];
          end
-     end
-    % im_entree_vect = reshape(im_basse, [(s2 - 2*R +1) * (s1 - 2*R + 1), 1]);
-    % im_sortie_vect = reshape(im_sortie, [sizex * sizey, 1]);
-    
+     end    
 end
 
 
 im_sortie = transpose(im_sortie);
-disp(size(im_entree))
-disp(size(im_sortie))
-
 
 % SVR method
 if(nargin == 3 || (param.method == 0 && param.gamma == 0))
@@ -48,7 +41,6 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
     perf_moy = [0 0 0 0 0 0 0 0];
     gamma=[0.1 0.5 1 2 5 10 15 20];
     for g = 1:8
-        disp(g); fflush(stdout);
         options.kernel_d = gamma(g);
         options.kernel_type = 'gaussian';
         for i=1:nb_folds
@@ -58,10 +50,8 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
             perf = sqrt ( (1 / (x1*x2)) * norm (X - X_) * norm (X - X_));
             perf_moy(g) = perf_moy(g) + perf;
         end
-        disp(perf_moy(g)); fflush(stdout);
     end
     perf_moy = perf_moy ./ nb_folds
-    disp(perf_moy); fflush(stdout);
     
     imin = 1;
     for i = 1:8
@@ -69,7 +59,6 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
             imin = i;
         end
     end
-    disp(imin);fflush(stdout);
     param.gamma = gamma(imin);
        
 end
@@ -84,12 +73,30 @@ if (nargin == 3 || param.method == 0)
     for n = 1:1 % 1:t3 for all images
         im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
     end
+    %{
+    disp("images tests   ");disp(size(im_test));
     disp(im_test); fflush(stdout);
+    %}
     images_superresolues = svm_regression(im_test, im_sortie, im_entree, options);
-
+    %{
+    disp("images superresolues   ");disp(size(images_superresolues));
+    disp(images_superresolues); fflush(stdout);
+    %}
     % reshape
     
-    images_superresolues = reshape(images_superresolues, [R_*t1 R_*t2]);
+    image_res = zeros(t1*R_,t2*R_);
+    for i = 1:t1
+      for j = 1:t2
+        for t = 1:R_
+          for t_ = 1:R_
+            image_res((i-1)*R_ + (t-1),j*R_ + (t_ - 1)) = reshape(images_superresolues(i + t1*(j-1), t+R_*(t_-1)), [R_, R_]);
+          end
+        end
+      end
+    end
+    
+    images_supperresolues = image_res
+    % images_superresolues_ = reshape(images_superresolues, [R_*t1 R_*t2]);
     
 end
 %}
