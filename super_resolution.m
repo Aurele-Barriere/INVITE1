@@ -8,8 +8,14 @@ function images_superresolues = super_resolution(images_learning_basse_resolutio
 [s1_, s2_, s3_] = size(images_learning_haute_resolution);
 assert (s3 == s3_);
 
-R = 1; % low res radius. to be fixed by parameter
-R_ = 2; % high res radius
+if (nargin == 3 || exists(param.R) == 0)
+  R = 1;
+else
+  R=param.R;
+end
+
+assert(s1_ / s1 == s2_ / s2)
+R_ = s1_ / s1; % high res radius
 
 im_entree = [];
 im_sortie = [];
@@ -83,7 +89,7 @@ if (nargin == 3 || param.method == 0)
 
     % reshape
     
-    images_superresolues = reshape(images_superresolues, [s1_ s2_]);
+    images_superresolues = reshape(images_superresolues, [R_*t1 R_*t2]);
     
 end
 %}
