@@ -14,7 +14,7 @@ R_ = 2; % high res radius
 im_entree = [];
 im_sortie = [];
 for n=1:s3 % reshape data
-    im_entree = [im_entree im2patches(images_learning_basse_resolution(:,:,n),R,'replicate')];
+    im_entree = [im_entree;im2patches(images_learning_basse_resolution(:,:,n),1,'replicate')];
    % im_sortie = [im_sortie im2patches(images_learning_haute_resolution(:,:,n),R_,'replicate')
     
     for i=1:s1
@@ -27,9 +27,12 @@ for n=1:s3 % reshape data
     
 end
 
-%im_entree = transpose(im_entree);
-im_sortie = transpose(im_sortie);
 
+im_sortie = transpose(im_sortie);
+disp(size(im_entree))
+disp(size(im_sortie))
+
+%{
 % SVR method
 if(nargin == 3 || (param.method == 0 && param.gamma == 0))
     
@@ -84,6 +87,7 @@ if (nargin == 3 || param.method == 0)
     images_superresolues = reshape(images_superresolues, [s1_ s2_]);
     
 end
+%}
 
 
 % test with
