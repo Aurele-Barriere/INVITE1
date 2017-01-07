@@ -83,19 +83,19 @@ if (nargin == 3 || param.method == 0)
     disp(images_superresolues); fflush(stdout);
     %}
     % reshape
-    
+    disp(size(images_superresolues))
     image_res = zeros(t1*R_,t2*R_);
     for i = 1:t1
       for j = 1:t2
         for t = 1:R_
           for t_ = 1:R_
-            image_res((i-1)*R_ + (t-1),j*R_ + (t_ - 1)) = reshape(images_superresolues(i + t1*(j-1), t+R_*(t_-1)), [R_, R_]);
+            image_res(R_*(i-1)+t, R_*(j-1)+t_) = images_superresolues(i + t1*(j-1), t+R_*(t_-1));
           end
         end
       end
     end
-    
-    images_supperresolues = image_res
+    disp(size(image_res))
+    images_superresolues = image_res
     % images_superresolues_ = reshape(images_superresolues, [R_*t1 R_*t2]);
     
 end
