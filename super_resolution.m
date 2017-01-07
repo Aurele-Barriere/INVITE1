@@ -32,7 +32,7 @@ im_sortie = transpose(im_sortie);
 disp(size(im_entree))
 disp(size(im_sortie))
 
-%{
+
 % SVR method
 if(nargin == 3 || (param.method == 0 && param.gamma == 0))
     
@@ -42,15 +42,20 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
     perf_moy = [0 0 0 0 0 0 0 0];
     gamma=[0.1 0.5 1 2 5 10 15 20];
     for g = 1:8
+        disp(g); fflush(stdout);
+        options.kernel_d = gamma(g);
+        options.kernel_type = 'gaussian';
         for i=1:nb_folds
             X = label_kv{i};
-            X_ = svm_regression(data_kv{i},label_kt{i},data_kt{i});
+            X_ = svm_regression(data_kv{i}, label_kt{i}, data_kt{i}, options);
             [x1 x2] = size(X);
             perf = sqrt ( (1 / (x1*x2)) * norm (X - X_) * norm (X - X_));
             perf_moy(g) = perf_moy(g) + perf;
         end
+        disp(perf_moy(g)); fflush(stdout);
     end
     perf_moy = perf_moy ./ nb_folds
+    disp(perf_moy); fflush(stdout);
     
     imin = 1;
     for i = 1:8
@@ -58,11 +63,12 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
             imin = i;
         end
     end
+    disp(imin);fflush(stdout);
     param.gamma = gamma(imin);
        
 end
 
-
+%{
 if (nargin == 3 || param.method == 0)
     options.kernel_d = param.gamma;
     options.kernel_type = 'gaussian';
