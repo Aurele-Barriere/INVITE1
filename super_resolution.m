@@ -14,7 +14,7 @@ R_ = 2; % high res radius
 im_entree = [];
 im_sortie = [];
 for n=1:s3 % reshape data
-    im_entree = [im_entree;im2patches(images_learning_basse_resolution(:,:,n),1,'replicate')];
+    im_entree = [im_entree;im2patches(images_learning_basse_resolution(:,:,n),R,'replicate')];
    % im_sortie = [im_sortie im2patches(images_learning_haute_resolution(:,:,n),R_,'replicate')
     
     for i=1:s1
@@ -76,8 +76,9 @@ if (nargin == 3 || param.method == 0)
     im_test = [];
     [t1 t2 t3] = size(images_test);
     for n = 1:1 % 1:t3 for all images
-        im_test = [im_test im2patches(images_test(:,:,n),R,'replicate')];
+        im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
     end
+    disp(im_test); fflush(stdout);
     images_superresolues = svm_regression(im_test, im_sortie, im_entree, options);
 
     % reshape
