@@ -8,7 +8,7 @@ function images_superresolues = super_resolution(images_learning_basse_resolutio
 [s1_, s2_, s3_] = size(images_learning_haute_resolution);
 assert (s3 == s3_);
 
-if (nargin == 3 || exists(param.R) == 0)
+if (nargin == 3) % || exists(param.R) == 0) --> j'enleve ca, exists n'existe pas chez moi
   R = 1;
 else
   R=param.R;
@@ -102,6 +102,57 @@ end
 %}
 
 
-% test with
-% super_resolution(images_apprentissage_lr(100:120, 100:120, 1:2), images_apprentissage_hr(100:120, 100:120, 1:2), images_test_lr)
-% compare with imresize(im, [taille * 2, taille * 2])
+% KNN method
+if(nargin == 4 && param.method == -1)
+  %{
+  % validation croisée
+    if(param.k == 0)
+      klist = [1 2 3 4 5];
+      klength = 5;
+    end
+    if(param.k > 0)
+      klist = [param.k];
+      klength = 1;
+    end
+    if(param.rayon == 0)
+      rlist = [1 2 3];
+      rlength = 3;  
+    end
+    if(param.rayon > 0)
+      rlist = [param.r];
+      rlength = 1;
+    end
+    if (klength > 1 || rlength > 1)
+      for k = 1:klength
+        for r = 1:rlength
+            % test
+	    % eval performance
+	    disp(todo);
+        end
+      end
+   end
+	  %}
+   k = 1;
+   r = 1;
+  % to change
+  % now that k and r are determined, starting knn algorithm
+  [t1 t2 t3] = size(images_test);
+  result = zeros(t1*R_,t2*R_);
+im_test = [];
+  for n = 1:1 % 1:t3 for all images
+im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
+end
+for i = 1:t1
+for j = 1:t2
+M = knn(im_test, im_sortie, im_entree, k, r, i, j);
+for x = 1:r
+for y = 1:r
+result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y);
+end
+end
+end
+end
+images_superresolues = result
+end
+
+
