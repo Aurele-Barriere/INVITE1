@@ -68,7 +68,7 @@ if(nargin == 3 || (param.method == 0 && param.gamma == 0))
        
 end
 
-%{
+
 if (nargin == 3 || param.method == 0)
     options.kernel_d = param.gamma;
     options.kernel_type = 'gaussian';
@@ -78,15 +78,7 @@ if (nargin == 3 || param.method == 0)
     for n = 1:1 % 1:t3 for all images
         im_test = [im_test im2patches(images_test(:,:,n),R,'replicate')];
     end
-    disp(t1)
-    disp(t2)
-    disp(t3)
-    disp("lol")
-    disp("xd")
-    disp(size(im_test))
-    disp(size(im_sortie))
-    disp(size(im_entree))
-    images_superresolues = svm_regression(transpose(im_test), im_sortie, im_entree, options);
+    images_superresolues = svm_regression(im_test, im_sortie, im_entree, options);
 
     % reshape
     
