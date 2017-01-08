@@ -55,18 +55,9 @@ if (nargin == 3 || param.method == 0)
     for n = 1:1 % 1:t3 for all images
         im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
     end
-    %{
-    disp("images tests   ");disp(size(im_test));
-    disp(im_test); fflush(stdout);
-    %}
     im_sup = svm_regression(im_test, im_sortie, im_entree, options);
-    %{
-    disp("images superresolues   ");disp(size(images_superresolues));
-    disp(images_superresolues); fflush(stdout);
-    %}
     
-    
-    % reshape
+    % reshape the result
     image_res = zeros(t1*R_,t2*R_);
     for i = 1:t1
       for j = 1:t2
@@ -79,10 +70,10 @@ if (nargin == 3 || param.method == 0)
     end
     disp(size(image_res));
     images_superresolues = image_res;
-    % images_superresolues_ = reshape(images_superresolues, [R_*t1 R_*t2]);
     
 end
 
+% SVR method with addition of gradient information
 if (nargin == 4 && param.method == 2)
   param.sigma = [2 3 5 10 20];
   
@@ -192,23 +183,23 @@ if(nargin == 4 && param.method == -1)
   % now that k and r are determined, starting knn algorithm
   [t1 t2 t3] = size(images_test);
   result = zeros(t1*R_,t2*R_);
-im_test = images_test;
-%  for n = 1:1 % 1:t3 for all images
-%im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
-%end
-for i = 1:t1
-for j = 1:t2
-	  M = knn(im_test, im_sortie, im_entree, k, r, i, j,R_);
-size(M);
-size(im_test);
-for x = 1:r
-for y = 1:r
-result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y);
-end
-end
-end
-end
-images_superresolues = result;
+  im_test = images_test;
+  %  for n = 1:1 % 1:t3 for all images
+  %im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
+  %end
+  for i = 1:t1
+    for j = 1:t2
+      M = knn(im_test, im_sortie, im_entree, k, r, i, j,R_);
+      size(M);
+      size(im_test);
+      for x = 1:r
+        for y = 1:r
+          result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y);
+        end
+      end
+    end
+  end
+  images_superresolues = result;
 end
 
-
+end
