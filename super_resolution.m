@@ -132,19 +132,21 @@ if(nargin == 4 && param.method == -1)
       end
    end
 	  %}
-   k = 1;
+   k = 3;
    r = 1;
   % to change
   % now that k and r are determined, starting knn algorithm
   [t1 t2 t3] = size(images_test);
   result = zeros(t1*R_,t2*R_);
-im_test = [];
-  for n = 1:1 % 1:t3 for all images
-im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
-end
+im_test = images_test;
+%  for n = 1:1 % 1:t3 for all images
+%im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
+%end
 for i = 1:t1
 for j = 1:t2
 M = knn(im_test, im_sortie, im_entree, k, r, i, j);
+size(M)
+size(im_test)
 for x = 1:r
 for y = 1:r
 result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y);
