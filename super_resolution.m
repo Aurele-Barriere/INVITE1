@@ -144,9 +144,9 @@ im_test = images_test;
 %end
 for i = 1:t1
 for j = 1:t2
-M = knn(im_test, im_sortie, im_entree, k, r, i, j);
-size(M)
-size(im_test)
+	  M = knn(im_test, im_sortie, im_entree, k, r, i, j,R_);
+size(M);
+size(im_test);
 for x = 1:r
 for y = 1:r
 result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y);
