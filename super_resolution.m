@@ -175,10 +175,6 @@ if(nargin == 4 && param.method == -1)
           X=label_kv{n};
           for i = 1:t1
             for j = 1:t2
-              size(label_kv{n})
-              size(data_kv{n})
-              size(label_kt{n})
-              size(data_kt{n})
               M = knn(data_kv{n}, label_kt{n}, data_kt{n}, ks(k), rs(r), i, j,R_, 1); %calling knn algorithm for each pixel
               for x = 1:R_
                 for y = 1:R_
