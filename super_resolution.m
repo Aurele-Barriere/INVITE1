@@ -176,9 +176,13 @@ perf_moy = zeros(size(ks),size(rs));
 im_test = images_test;
   for i = 1:t1
     for j = 1:t2
+	      size(label_kt{i})
+	      size(data_kv{1})
+      size(label_kt{i})
+      size(data_kt{i})
 		 M = knn(data_kv{i}, label_kt{i}, data_kt{i}, k, r, i, j,R_); %calling knn algorithm for each pixel
-      for x = 1:r
-        for y = 1:r
+      for x = 1:R_
+        for y = 1:R_
           result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y); %filling the matrix with the result of knn
         end
       end

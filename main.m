@@ -6,8 +6,8 @@ function main()
   addpath('svr');
 
 
-
-  imshow(images_test_lr(1:10, 1:10, 1:1), []);
+figure(1);
+  imshow(images_test_lr(1:30, 1:30, 1:1), []);
 %{
   params.method = 2
 
@@ -21,12 +21,13 @@ function main()
 
 param.method = -1;
 param.R = 1;
-param.k = 0;
+param.k = 5;
 param.rayon = 1;
-res = super_resolution(images_apprentissage_lr(1:10, 1:10, 1:1), images_apprentissage_hr(1:20, 1:20, 1:1), images_test_lr(1:10, 1:10, 1:1),param);
+res = super_resolution(images_apprentissage_lr(1:30, 1:30, 1:5), images_apprentissage_hr(1:60, 1:60, 1:5), images_test_lr(1:30, 1:30, 1:1),param);
 
 
   disp(size(res));
+figure (2);
   imshow(res, []);
 
 end
