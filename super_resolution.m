@@ -55,6 +55,7 @@ if (nargin == 3 || param.method == 0)
     for n = 1:1 % 1:t3 for all images
         im_test = [im_test; im2patches(images_test(:,:,n),R,'replicate')];
     end
+    % Does the regression
     im_sup = svm_regression(im_test, im_sortie, im_entree, options);
     
     % reshape the result
@@ -77,6 +78,7 @@ end
 if (nargin == 4 && param.method == 2)
   param.sigma = [2 3 5 10 20];
   
+  % Add gradient parameters
   for sigma = param.sigma
     new_line_x = [];
     new_line_y = [];
@@ -129,8 +131,10 @@ if (nargin == 4 && param.method == 2)
   end
   disp(size(im_test)); disp(size(im_sortie)); disp(size(im_entree));
   
-  
+  % Does the regression
   im_sup = svm_regression(im_test, im_sortie, im_entree, options);
+  
+  % Transform the result into an image
   image_res = zeros(t1*R_,t2*R_);
     for i = 1:t1
       for j = 1:t2
