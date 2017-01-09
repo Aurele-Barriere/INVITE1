@@ -156,57 +156,11 @@ if(nargin == 4 && param.method == -1)
   [t1 t2 t3] = size(images_test);
   result = zeros(t1*R_,t2*R_);
 
-  if (param.k >0 && param.rayon >0)
     k = param.k;
     r = param.rayon;
-  end
+ 
 
-  if(param.k == 0 || param.rayon == 0)
-    % cross  validation
-    nb_folds = 10;
-    [label_kt,label_kv,data_kt,data_kv] = decoupe_data(im_entree, im_sortie, nb_folds);
-    ks=[1 2 3 4 5];
-    rs = [1 2 3];
-    perf_moy = zeros(size(ks),size(rs));
-    nb_folds=10;
-    for k  = 1:size(ks)
-      for r = 1:size(rs)
-        for n = 1:nb_folds
-          X=label_kv{n};
-          for i = 1:t1
-            for j = 1:t2
-              M = knn(data_kv{n}, label_kt{n}, data_kt{n}, ks(k), rs(r), i, j,R_, 1); %calling knn algorithm for each pixel
-              for x = 1:R_
-                for y = 1:R_
-                  result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y); %filling the matrix with the result of knn
-                end
-              end
-          end
-        end
-        [x1 x2] = size(X);
-        perf = sqrt ( (1 / (x1*x2)) * norm (X - result) * norm (X - result));
-        perf_moy(k,r) = perf_moy(k,r) + perf;
-      end
-    end
-  end
-  imin=1;
-  jmin=1;
-  for k  = 1:size(ks)
-    for r = 1:size(rs)
-      if (perf_moy(k,r) < perf_moy(imin,jmin))
-        imin=k;
-        jmin=r;
-      end
-    end
-  end
-
-  k = ks(imin);
-  r = rs(jmin);
-
-end
-
-  % KNN algorithm after the parameters are fixed
-  % now that k and r are determined, starting knn algorithm
+  % KNN algorithm 
     result = zeros(t1*R_,t2*R_);
   im_test = images_test;
   for i = 1:t1
