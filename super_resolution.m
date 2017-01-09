@@ -196,8 +196,8 @@ if(nargin == 4 && param.method == -1)
       M = knn(im_test, im_sortie, im_entree, k, r, i, j,R_);
       size(M);
       size(im_test);
-      for x = 1:r
-        for y = 1:r
+      for x = 1:R_
+        for y = 1:R_
           result(R_*(i-1)+x, R_*(j-1)+y)=M(x,y);
         end
       end

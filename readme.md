@@ -33,11 +33,11 @@ et d'arrivée "à l'oeil".
 
 ## Méthode SVM
 Les résultats à l'aide de la méthode SVM sont concluants: sur nos images tests, les résultats
-sont proches de ce que l'on souhaite obtenir. On remarque en particulier que l'ajout
-des données de gradient améliorent le résultat.
+sont proches de ce que l'on souhaite obtenir.
+On remarque en particulier que l'ajout des données de gradient ne semble pas améliorer le résultat. Nous supposons que sur le peu de références utilisées, les gradients "éloignent" le résultat de la couleur attendue.
 
 ## Méthode KNN
-Notre implémentation des KNN n'est pas concluante. Nous obtenons un damier périodique.
+Notre implémentation des KNN n'est pas concluante.
 
 # Conclusion
 Ce projet nous a permis d'appliquer des méthodes d'apprentissage vues en cours
