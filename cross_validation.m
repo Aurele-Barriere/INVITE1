@@ -1,6 +1,6 @@
 function best_param = cross_validation(nb_folds, label_kt,label_kv,data_kt,data_kv, gammas)
 
-  perf_moy = [0 0 0 0 0 0 0 0];
+  perf_moy = zeros(size(gammas));
   
   for g = 1:size(gammas)
     options.kernel_d = gammas(g);
