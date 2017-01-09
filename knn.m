@@ -1,4 +1,4 @@
-function knn_matrix = knn(im_test, im_sortie, im_entree, k, r, i, j, R_)
+function knn_matrix = knn(im_test, im_sortie, im_entree, k, r, i, j, R_, transformed)
 % knn algorithm
 % im_entree and im_sortie are the database of low-res/high-res images 
 % im_test is an image in low-res
@@ -6,15 +6,19 @@ function knn_matrix = knn(im_test, im_sortie, im_entree, k, r, i, j, R_)
 % by blending the k nearest neighbor in im_entree
 % r is the size of the neighborhood
 
-  assert(nargin == 8)
+  assert(nargin >= 8)
 % we make sure that there is every argument
   knn_matrix=zeros(R_,R_);
   [s1 s2 s3] = size(im_entree);
-  im=padarray(im_test,[r r],'replicate');
-% we replicate the sides of the image 
-  vois = im(i:i+2*r,j:j+2*r);
-% the neighborhood of the point in i,j coordinates 
-  voisinage = reshape(vois,[1,(2*r+1)*(2*r+1)]);
+  if (nargin == 9)
+    voisinage=im_test(i + R_*j)
+  else
+    im=padarray(im_test,[r r],'replicate');
+  % we replicate the sides of the image 
+    vois = im(i:i+2*r,j:j+2*r);
+  % the neighborhood of the point in i,j coordinates 
+    voisinage = reshape(vois,[1,(2*r+1)*(2*r+1)]);
+  end
   dist = zeros(s1,2);
 % the array of distance between the neighborhood and the matrices in im_entree
   for t = 1 : s1

@@ -7,7 +7,7 @@ function main()
 
 
 figure(1);
-  imshow(images_test_lr(1:30, 1:30, 1:1), []);
+  imshow(images_test_lr(1:15, 1:15, 1:1), []);
 %{
   params.method = 2
 
@@ -21,9 +21,9 @@ figure(1);
 
 param.method = -1;
 param.R = 1;
-param.k = 5;
+param.k = 0;
 param.rayon = 1;
-res = super_resolution(images_apprentissage_lr(1:30, 1:30, 1:5), images_apprentissage_hr(1:60, 1:60, 1:5), images_test_lr(1:30, 1:30, 1:1),param);
+res = super_resolution(images_apprentissage_lr(1:15, 1:15, 1:5), images_apprentissage_hr(1:30, 1:30, 1:5), images_test_lr(1:15, 1:15, 1:1),param);
 
 
   disp(size(res));
