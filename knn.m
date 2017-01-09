@@ -18,7 +18,6 @@ function knn_matrix = knn(im_test, im_sortie, im_entree, k, r, i, j, R_)
   dist = zeros(s1,2);
 % the array of distance between the neighborhood and the matrices in im_entree
   for t = 1 : s1
-	    disp(r); fflush(stdout);
     dist(t,1) = norm(im_entree(t,:)-voisinage,2);
     dist(t,2) = t;
   end
