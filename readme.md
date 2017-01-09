@@ -35,6 +35,7 @@ et d'arrivée "à l'oeil".
 Les résultats à l'aide de la méthode SVM sont concluants: sur nos images tests, les résultats
 sont proches de ce que l'on souhaite obtenir.
 On remarque en particulier que l'ajout des données de gradient ne semble pas améliorer le résultat. Nous supposons que sur le peu de références utilisées, les gradients "éloignent" le résultat de la couleur attendue.
+L'image `svm_result.png` montre un résultat de cette méthode, l'image `svm_result_grad.png` montre un résultat avec les données de gradients. Enfin, `before.png` montre l'image de base.
 
 ## Méthode KNN
 Les résultats de la méthode KNN sont concluants. L'image obtenue est bien de meilleure résolution que l'image originale et lui ressemble. Pour chaque voisinage d'un pixel de l'image dont on veut améliorer la résolution, on trouve les k sous-matrices de la base de données les plus ressemblantes, puis on mélange les k sous-matrices hautes-résolution associées pour obtenir la matrice haute-résolution qui remplacera le pixel. L'image knnresult.png montre un résultat de cette méthode pour k=5 et rayon=1. L'apprentissage est fait sur 10 images.
